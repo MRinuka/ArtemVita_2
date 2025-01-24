@@ -5,7 +5,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 
-Route::get('/', [ProductController::class, 'home'])->name('home');
+Route::get('/', [ProductController::class, 'home'])
+    ->name('home');
 
 
 //*----------- Sanctum Routes ---------- */

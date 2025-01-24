@@ -16,7 +16,7 @@ class ProductController extends Controller
         $products = Product::take(3)->get();
 
         // Pass the products to the view
-        return view('home', compact('products'));
+        return view('Home', compact('products'));
     }
 
     public function index()
