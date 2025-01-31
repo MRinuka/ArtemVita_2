@@ -1,5 +1,8 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-@include('header')
+@extends('layouts.customer')
+
+@section('title', 'Checkout')
+
+@section('content')
 
 <div class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold mb-6">Checkout</h1>
@@ -30,3 +33,5 @@
         </form>
     </div>
 </div>
+
+@endsection

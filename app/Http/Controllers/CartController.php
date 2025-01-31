@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,19 +9,41 @@ class CartController extends Controller
 {
     public function add(Request $request)
     {
-        // Validate the product_id input
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
 
-        // Add the product to the user's cart
-        $cart = new Cart();
-        $cart->user_id = Auth::id(); // Logged-in user ID
-        $cart->product_id = $request->product_id;
-        $cart->quantity = 1; // Default quantity
-        $cart->save();
+        $existingCartItem = Cart::where('user_id', Auth::id())
+            ->where('product_id', $request->product_id)
+            ->first();
 
-        // Redirect back with a success message
+        if (!$existingCartItem) {
+            Cart::create([
+                'user_id' => Auth::id(),
+                'product_id' => $request->product_id,
+            ]);
+        }
+
+        // Set a session flash message
+        session()->flash('cartUpdated', true);
+
         return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function showCart()
+    {
+        return view('cart');  // Just return the view, no data passed here
+    }
+
+
+    public function removeFromCart($productId)
+    {
+        $userId = Auth::id();
+
+        Cart::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->delete();
+
+        return redirect()->route('cart.show')->with('success', 'Product removed from cart.');
     }
 }

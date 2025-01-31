@@ -19,5 +19,18 @@ class Product extends Model
         'description',
         'painting_url',
     ];
+
+    // Define the relationship with the Order model
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    // In Product.php model
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
 }
 
