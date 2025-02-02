@@ -12,12 +12,12 @@ class AdminController extends Controller
     
 
     public function index()
-{
-    // Fetch up to 3 product requests
-    $productRequests = ProductRequests::where('status', 'pending')->get();  // Or use another method to get them
+    {
+        // Fetch up to 3 product requests
+        $productRequests = ProductRequests::where('status', 'pending')->get();  // Or use another method to get them
 
-    return view('admin.home', compact('productRequests'));
-}
+        return view('admin.home', compact('productRequests'));
+    }
 
     public function users()
     {
@@ -63,4 +63,14 @@ class AdminController extends Controller
 
         return redirect()->route('admin.product_requests')->with('error', 'Product request declined.');
     }
+
+    public function products()
+    {
+        // Fetch all products
+        $products = Product::all();
+
+        // Return the view with the products data
+        return view('admin.products', compact('products'));
+    }
+
 }

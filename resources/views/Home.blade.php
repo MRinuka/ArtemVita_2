@@ -52,7 +52,35 @@
 </div>
 
 <div class="container mx-auto mt-12">
-    {{-- Popular artists --}}
+    
 </div>
+{{-- Popular Artists Section --}}
+<div class="container mx-auto mt-12">
+    <h2 class="text-2xl font-bold mb-6">Popular Artists</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach ($popularArtists as $artist)
+            <a href="{{ route('artist.show', $artist->id) }}" 
+               class="bg-white shadow-lg rounded-lg p-4 text-center block hover:shadow-xl transition transform hover:scale-105">
+
+                <!-- Profile Picture -->
+                <img 
+                    src="{{ $artist->profile_picture_url }}" 
+                    alt="{{ $artist->name }}" 
+                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                />
+
+                <!-- Artist Name -->
+                <h3 class="text-lg font-semibold">{{ $artist->name }}</h3>
+
+                <!-- Number of Paintings -->
+                <p class="text-gray-600 mt-2">{{ $artist->products->count() }} Paintings</p>
+
+            </a>
+        @endforeach
+    </div>
+</div>
+
+
 
 @endsection

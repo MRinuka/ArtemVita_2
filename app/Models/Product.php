@@ -20,6 +20,11 @@ class Product extends Model
         'painting_url',
     ];
 
+    public function artist()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
     // Define the relationship with the Order model
     public function orders()
     {

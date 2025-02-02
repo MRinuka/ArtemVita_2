@@ -20,8 +20,10 @@
     <!-- Header -->
     <header class="bg-white text-black px-6 py-4 flex flex-wrap items-center justify-between border border-gray-300 shadow-md">
         <!-- Logo -->
-        <div class="text-2xl font-bold mb-2 sm:mb-0 flex-shrink-0">
-            <a href="/" class="hover:text-gray-400">AV</a>
+        <div class="flex-shrink-0">
+            <a href="/">
+                <img src="{{ asset('favicon-32x32.png') }}" alt="ArtemVita Logo" class="h-8 w-8"> <!-- Adjust the size if necessary -->
+            </a>
         </div>
 
         <!-- Navigation Links -->

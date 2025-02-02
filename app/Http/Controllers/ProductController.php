@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ProductRequests;
+use App\Models\User;
 
 
 class ProductController extends Controller
@@ -14,10 +15,12 @@ class ProductController extends Controller
     public function home()
     {
         // Fetch three products
-        $products = Product::take(3)->get();
-
-        // Pass the products to the view
-        return view('Home', compact('products'));
+        $popularArtists = User::whereHas('products')->take(3)->get();
+    
+        // Fetch products as usual
+        $products = Product::latest()->take(6)->get(); // Example: Fetch latest 6 products
+    
+        return view('home', compact('products', 'popularArtists'));
     }
 
     public function index()
@@ -83,6 +86,12 @@ class ProductController extends Controller
 
         // Pass the product to the detailed view
         return view('product_details', compact('product'));
+    }
+
+    public function artist_products($id)
+    {
+        $artist = User::with('products')->findOrFail($id);
+        return view('artist.show', compact('artist'));
     }
 
     // In app/Http/Controllers/ProductController.php

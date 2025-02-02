@@ -9,6 +9,7 @@
             {{ session('success') }}
         </div>
     @endif
+
     <div class="bg-white shadow-lg rounded-lg p-6">
         <!-- Painting Image -->
         <img 
@@ -40,7 +41,6 @@
                 </button>
             </form>
         </div>
-        
 
         <!-- Back Button -->
         <a href="/products" 
@@ -48,7 +48,29 @@
             Back to Gallery
         </a>
     </div>
+
+    <!-- Artist's Other Products -->
+    @if($product->artist && $product->artist->products->count() > 1)
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold mb-4">Other Artworks by {{ $product->artist->name }}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($product->artist->products->where('id', '!=', $product->id) as $otherProduct)
+                    <a href="{{ route('product.show', $otherProduct->id) }}" class="bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition">
+                        <div>
+                            <img src="{{ asset('storage/' . $otherProduct->painting_url) }}" 
+                                class="w-full h-48 object-cover rounded-lg mb-4"
+                                alt="{{ $otherProduct->product_name }}">
+                            <h3 class="text-xl font-semibold">{{ $otherProduct->product_name }}</h3>
+                            <p class="text-gray-700 mt-2">${{ $otherProduct->price }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
 </div>
+
 @if(session('cartUpdated'))
     <script>
         document.addEventListener("DOMContentLoaded", function() {

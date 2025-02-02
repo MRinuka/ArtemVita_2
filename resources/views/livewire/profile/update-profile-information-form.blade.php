@@ -10,14 +10,17 @@ new class extends Component
 {
     public string $name = '';
     public string $email = '';
+    public ?string $bio = ''; // Add bio field
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $user = Auth::user();
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->bio = $user->bio ?? ''; // Load bio from DB
     }
 
     /**
@@ -30,6 +33,7 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'bio' => ['nullable', 'string', 'max:500'], // Validate bio
         ]);
 
         $user->fill($validated);
@@ -52,7 +56,6 @@ new class extends Component
 
         if ($user->hasVerifiedEmail()) {
             $this->redirectIntended(default: route('dashboard', absolute: false));
-
             return;
         }
 
@@ -60,7 +63,9 @@ new class extends Component
 
         Session::flash('status', 'verification-link-sent');
     }
-}; ?>
+}; 
+?>
+
 
 <section>
     <header>
@@ -69,7 +74,7 @@ new class extends Component
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Update your account's profile information, email, and bio.") }}
         </p>
     </header>
 
@@ -102,6 +107,15 @@ new class extends Component
                     @endif
                 </div>
             @endif
+        </div>
+
+        <!-- Bio Field -->
+        <div>
+            <x-input-label for="bio" :value="__('Bio')" />
+            <textarea wire:model="bio" id="bio" name="bio" rows="4" 
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200">
+            </textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
         <div class="flex items-center gap-4">

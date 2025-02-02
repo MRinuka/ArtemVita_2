@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/product-requests', [AdminController::class, 'productRequests'])->name('admin.product_requests');
         Route::post('/admin/product-requests/{id}/accept', [AdminController::class, 'acceptProductRequest'])->name('admin.product_requests.accept');
         Route::post('/admin/product-requests/{id}/decline', [AdminController::class, 'declineProductRequest'])->name('admin.product_requests.decline');
+        Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
     });
 });
 
@@ -85,6 +86,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 // Public routes
+Route::get('/artist/{id}', [ProductController::class, 'artist_products'])
+    ->name('artist.show');
+
 Route::get('/products', [ProductController::class, 'index'])
     ->name('products.index');
 
