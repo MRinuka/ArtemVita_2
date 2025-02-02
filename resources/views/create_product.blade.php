@@ -1,5 +1,8 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-@include('header')
+@extends('layouts.customer')
+
+@section('title', 'Welcome to ArtemVita')
+
+@section('content')
 
 
 @if(session('success'))
@@ -61,3 +64,4 @@
         </div>
     </form>
 </div>
+@endsection

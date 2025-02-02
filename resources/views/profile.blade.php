@@ -1,5 +1,5 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
-@include('header')
+
 
 
 <x-app-layout>

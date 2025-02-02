@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ProductRequests;
 
 
 class ProductController extends Controller
@@ -43,19 +44,17 @@ class ProductController extends Controller
         // Store the image
         $imagePath = $request->file('image')->store('paintings', 'public');
 
-        // Create the product record
-        $product = new Product();
-        $product->product_name = $validatedData['painting_name'];
-        $product->price = $validatedData['price'];
-        $product->description = $validatedData['description'];
-        $product->painting_url = 'paintings/' . basename($imagePath); // Save just the relative path
-        $product->seller_id = Auth::id(); // Assign the logged-in user's ID as seller_id
-        $product->save();
-        // dd($product);
-
+        // Create the product request record
+        $productRequests = new ProductRequests();
+        $productRequests->product_name = $validatedData['painting_name'];
+        $productRequests->price = $validatedData['price'];
+        $productRequests->description = $validatedData['description'];
+        $productRequests->painting_url = 'paintings/' . basename($imagePath); // Save just the relative path
+        $productRequests->seller_id = Auth::id(); // Assign the logged-in user's ID as seller_id
+        $productRequests->save();
 
         // Redirect back with a success message
-        return redirect()->back()->with('success', 'Painting uploaded successfully!');
+        return redirect()->back()->with('success', 'Product request submitted for approval!');
     }
 
     public function destroy($id)

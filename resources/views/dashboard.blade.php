@@ -10,6 +10,15 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("You're logged in!") }}
+                    
+                    @if(Auth::user()->role === 'admin')
+                        <!-- Button to redirect to Admin Dashboard -->
+                        <div class="mt-4">
+                            <a href="{{ route('admin.home') }}" class="bg-blue-500 text-white px-4 py-2 rounded">
+                                Go to Admin Dashboard
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
