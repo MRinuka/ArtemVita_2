@@ -20,7 +20,7 @@ class ProductController extends Controller
         // Fetch products as usual
         $products = Product::latest()->take(6)->get(); // Example: Fetch latest 6 products
     
-        return view('home', compact('products', 'popularArtists'));
+        return view('Home', compact('products', 'popularArtists'));
     }
 
     public function index()
