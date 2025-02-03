@@ -102,11 +102,19 @@ class ProductController extends Controller
     
     public function userHub()
     {
-        $userId = auth()->id(); // Get the logged-in user's ID
-        $products = Product::where('seller_id', $userId)->get(); // Fetch products uploaded by the user
+        $userId = auth()->id();
 
-        return view('user_hub', compact('products'));
+        // Fetch products uploaded by the artist
+        $products = Product::where('seller_id', $userId)->get();
+
+        // Fetch products that have been sold (linked via orders)
+        $soldProducts = Product::where('seller_id', $userId)
+                            ->whereHas('orders') // Checks if the product has associated orders
+                            ->get();
+
+        return view('artist.user_hub', compact('products', 'soldProducts'));
     }
+
 
     public function edit($id)
     {
@@ -117,7 +125,7 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
 
-        return view('edit_product', compact('product'));
+        return view('artist.edit_product', compact('product'));
     }
 
     public function update(Request $request, $id)
@@ -153,7 +161,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect('/hub')->with('success', 'Product updated successfully.');
+        return redirect()->route('products.edit', $product->id)->with('success', 'Product updated successfully.');
     }
 
 

@@ -1,5 +1,10 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-@include('header')
+@extends('layouts.customer')
+
+@section('title', 'Your Hub')
+
+@section('content')
+
+
 <div class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold mb-6">Your Products</h1>
 
@@ -51,4 +56,28 @@
         </div>
         @endforeach
     </div>
+    <!-- Section: Products Sold -->
+<h2 class="text-2xl font-semibold mt-12 mb-4">Products You Have Sold</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @forelse ($soldProducts as $soldProduct)
+        <div class="bg-white shadow-lg rounded-lg p-4">
+            <img src="{{ asset('storage/' . $soldProduct->painting_url) }}" 
+                 alt="{{ $soldProduct->product_name }}" 
+                 class="w-full h-48 object-cover rounded-lg mb-4"/>
+
+            <h2 class="text-xl font-semibold">{{ $soldProduct->product_name }}</h2>
+            <p class="text-gray-700 mt-2">${{ $soldProduct->price }}</p>
+            <p class="text-gray-500 mt-2">{{ Str::limit($soldProduct->description, 100) }}</p>
+
+            <div class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg text-center">
+                Sold
+            </div>
+        </div>
+    @empty
+        <p class="text-gray-600">No products sold yet.</p>
+    @endforelse
 </div>
+
+</div>
+
+@endsection

@@ -1,8 +1,16 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-@include('header')
+@extends('layouts.customer')
+
+@section('title', 'Edit Product')
+
+@section('content')
 
 <div class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold mb-6">Edit Product</h1>
+    @if(session('success'))
+        <div class="bg-green-500 text-white p-4 mb-4 rounded-lg">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <form action="/products/{{ $product->id }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
         @csrf
@@ -57,3 +65,5 @@
         </button>
     </form>
 </div>
+
+@endsection

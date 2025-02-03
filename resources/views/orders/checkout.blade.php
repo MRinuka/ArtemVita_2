@@ -13,8 +13,10 @@
         
         <form action="{{ route('checkout.process') }}" method="POST" class="mt-6">
             @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            
+
+            <!-- Hidden Product ID(s) -->
+            <input type="hidden" name="product_ids[]" value="{{ $product->id }}">
+
             <!-- Address Field -->
             <div class="mb-4">
                 <label for="address" class="block text-gray-700 text-sm font-bold mb-2">

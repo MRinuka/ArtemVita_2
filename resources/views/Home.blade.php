@@ -49,16 +49,14 @@
 </div>
 
 {{-- Other sections --}}
-<div class="container mx-auto mt-12">
-    {{-- Make your own art --}}
-</div>
+
 
 <div class="container mx-auto mt-12">
     
 </div>
 {{-- Popular Artists Section --}}
 <div class="container mx-auto mt-12">
-    <h2 class="text-2xl font-bold mb-6">Popular Artists</h2>
+    <h2 class="text-2xl font-bold mb-6">Artists You Might Like</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($popularArtists as $artist)
@@ -76,7 +74,7 @@
                 <h3 class="text-lg font-semibold">{{ $artist->name }}</h3>
 
                 <!-- Number of Paintings -->
-                <p class="text-gray-600 mt-2">{{ $artist->products->count() }} Paintings</p>
+                <p class="text-gray-600 mt-2">{{ $artist->products->count() }} Art Pieces</p>
 
             </a>
         @endforeach

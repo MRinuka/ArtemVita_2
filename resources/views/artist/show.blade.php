@@ -29,14 +29,17 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($artist->products as $product)
-            <div class="bg-white shadow-lg rounded-lg p-4">
-                <img src="{{ asset('storage/' . $product->painting_url) }}" 
-                     class="w-full h-48 object-cover rounded-lg mb-4"
-                     alt="{{ $product->product_name }}">
-                <h3 class="text-xl font-semibold">{{ $product->product_name }}</h3>
-                <p class="text-gray-700 mt-2">${{ $product->price }}</p>
-            </div>
+            <a href="{{ route('product.show', $product->id) }}" class="block">
+                <div class="bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition transform hover:scale-105">
+                    <img src="{{ asset('storage/' . $product->painting_url) }}" 
+                         class="w-full h-48 object-cover rounded-lg mb-4"
+                         alt="{{ $product->product_name }}">
+                    <h3 class="text-xl font-semibold">{{ $product->product_name }}</h3>
+                    <p class="text-gray-700 mt-2">${{ $product->price }}</p>
+                </div>
+            </a>
         @endforeach
     </div>
+    
 </div>
 @endsection
