@@ -88,13 +88,18 @@ class ProductController extends Controller
         return view('product_details', compact('product'));
     }
 
+    public function painting_dashboard()
+    {
+        return view('artist.painting_dashboard');
+    }
+
     public function artist_products($id)
     {
         $artist = User::with('products')->findOrFail($id);
         return view('artist.show', compact('artist'));
     }
 
-    // In app/Http/Controllers/ProductController.php
+    
     public function userHub()
     {
         $userId = auth()->id(); // Get the logged-in user's ID

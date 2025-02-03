@@ -23,14 +23,11 @@
                             <td class="px-4 py-4 text-gray-700">${{ number_format($item['price'], 2) }}</td>
                             <td class="px-4 py-4">
                                 <!-- Remove Button -->
-                                {{-- <form action="{{ route('cart.remove', $item['product']['id']) }}" method="POST" 
-                                      onsubmit="return confirm('Are you sure you want to remove this item?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
-                                        Remove
-                                    </button>
-                                </form> --}}
+                                <button 
+                                    wire:click="removeFromCart({{ $item['product_id'] }})"
+                                    class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                                    Remove
+                                </button>
                             </td>
                         </tr>
                     @endforeach

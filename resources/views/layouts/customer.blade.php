@@ -22,7 +22,7 @@
         <!-- Logo -->
         <div class="flex-shrink-0">
             <a href="/">
-                <img src="{{ asset('favicon-32x32.png') }}" alt="ArtemVita Logo" class="h-8 w-8"> <!-- Adjust the size if necessary -->
+                <img src="{{ asset('favicon-32x32.png') }}" alt="ArtemVita Logo" class="h-8 w-8"> 
             </a>
         </div>
 
@@ -40,6 +40,7 @@
 
     </header>
 
+    @include('frontend_component/register-prompt')
     <!-- Main Content -->
     <main class="container mx-auto mt-8 px-4 flex-grow">
         @yield('content')
@@ -50,6 +51,7 @@
         <div class="container mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between">
             <!-- Left Side: Brand & Copyright -->
             <div class="text-center md:text-left mb-6 md:mb-0">
+                <img src="{{ asset('favicon-32x32.png') }}" alt="ArtemVita Logo" class="h-8 w-8">
                 <span class="text-lg font-bold">ArtemVita</span> <br>
                 <p class="text-sm text-gray-500">&copy; {{ date('Y') }} All rights reserved.</p>
             </div>
@@ -62,12 +64,7 @@
                 <a href="/contact" class="text-gray-600 hover:text-blue-500 text-sm transition">Contact</a>
             </div>
 
-            <!-- Social Media Icons -->
-            <div class="flex space-x-4 mt-6 md:mt-0">
-                <a href="#" class="text-gray-600 hover:text-blue-500 transition"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="text-gray-600 hover:text-blue-500 transition"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-gray-600 hover:text-blue-500 transition"><i class="fab fa-instagram"></i></a>
-            </div>
+            
         </div>
     </footer>
 

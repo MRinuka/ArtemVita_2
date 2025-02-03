@@ -18,9 +18,16 @@
                                 Go to Admin Dashboard
                             </a>
                         </div>
+                    @else
+                        <!-- Button to redirect to Home -->
+                        <div class="mt-4">
+                            <a href="{{ route('home') }}" class="bg-green-500 text-white px-4 py-2 rounded">
+                                Go to Home
+                            </a>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 </x-app-layout>

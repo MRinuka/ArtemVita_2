@@ -36,7 +36,7 @@ class CartController extends Controller
     }
 
 
-    public function removeFromCart($productId)
+    /* public function removeFromCart($productId)
     {
         $userId = Auth::id();
 
@@ -45,5 +45,5 @@ class CartController extends Controller
             ->delete();
 
         return redirect()->route('cart.show')->with('success', 'Product removed from cart.');
-    }
+    } */
 }

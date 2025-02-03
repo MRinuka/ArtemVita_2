@@ -4,6 +4,8 @@
 
 @section('content')
 
+
+
 {{-- Hero Section --}}
 <div class="relative w-full h-[400px]">
     {{-- Hero Image --}}

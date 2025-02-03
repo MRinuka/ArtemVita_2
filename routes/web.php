@@ -52,10 +52,12 @@ Route::get('/checkout/cart', [CheckoutController::class, 'cartCheckout'])
 
 //*----------- Sanctum Routes ---------- */
 
-Route::view('painting_dashboard', 'painting_dashboard')
-    ->middleware('auth:sanctum');
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/painting_dashboard', [ProductController::class, 'painting_dashboard'])
+        ->name('painting_dashboard');
+
     Route::get('/checkout/{id}', [CheckoutController::class, 'show'])
         ->name('checkout.show');
 

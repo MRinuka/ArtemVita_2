@@ -21,6 +21,7 @@ class CartComponent extends Component
             $this->cartItems = $cartItems->map(function ($cartItem) {
                 return [
                     'id' => $cartItem->id,
+                    'product_id' => $cartItem->product_id,
                     'price' => $cartItem->product->price ?? 0,
                     'product' => [
                         'name' => $cartItem->product->product_name ?? 'Unknown',
@@ -32,6 +33,18 @@ class CartComponent extends Component
             // Calculate total price
             $this->totalPrice = array_sum(array_column($this->cartItems, 'price'));
         }
+    }
+
+    public function removeFromCart($productId)
+    {
+        if (!auth()->check()) return;
+
+        Cart::where('user_id', Auth::id())
+            ->where('product_id', $productId)
+            ->delete();
+
+        $this->mount(); // Refresh the cart after deletion
+        session()->flash('success', 'Product removed from cart.');
     }
 
     public function render()
