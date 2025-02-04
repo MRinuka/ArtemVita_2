@@ -31,6 +31,8 @@ class CheckoutController extends Controller
             'address' => 'required|string|max:255',
         ]);
 
+        $user = Auth::user();
+
         // Create a new order
         $order = new Order();
         $order->user_id = Auth::id(); // Assign logged-in user ID
@@ -38,6 +40,8 @@ class CheckoutController extends Controller
         $order->address = $validatedData['address'];
         $order->status = 'Pending'; // Default status
         $order->save();
+
+        $order->load('product');
 
         // Return JSON success response
         return response()->json([

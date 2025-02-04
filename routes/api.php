@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CheckoutController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\AuthController;
 
 Route::withoutMiddleware(['web'])->group(function () {
@@ -24,5 +25,7 @@ Route::withoutMiddleware(['web'])->group(function () {
         // Checkout Routes
         Route::get('/checkout/{id}', [CheckoutController::class, 'show']);
         Route::post('/checkout', [CheckoutController::class, 'process']);
+
+        Route::get('/orders', [OrderController::class, 'index']);
     });
 });
