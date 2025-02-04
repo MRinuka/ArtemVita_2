@@ -32,7 +32,7 @@ class CartController extends Controller
 
     public function showCart()
     {
-        return view('cart');  // Just return the view, no data passed here
+        return view('cart');  
     }
 
 
