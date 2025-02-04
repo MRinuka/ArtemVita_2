@@ -15,6 +15,8 @@ Route::withoutMiddleware(['web'])->group(function () {
     // Public Routes
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/{id}', [ProductController::class, 'show']);
+    Route::delete('/cart/remove', [CartController::class, 'remove']);
+
 
     // Protected Routes (Requires Authentication)
     Route::middleware('auth:sanctum')->group(function () {

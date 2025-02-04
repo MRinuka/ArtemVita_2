@@ -33,6 +33,30 @@ class CartController extends Controller
         ], 201);
     }
 
+    public function remove(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $cartItem = Cart::where('user_id', Auth::id())
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if (!$cartItem) {
+            return response()->json([
+                'message' => 'Product not found in cart!',
+            ], 404);
+        }
+
+        $cartItem->delete();
+
+        return response()->json([
+            'message' => 'Product removed from cart successfully!',
+        ], 200);
+    }
+
+
     // View the user's cart
     public function view()
     {
