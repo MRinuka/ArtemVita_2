@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\AuthController;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\Cart;
 
 Route::withoutMiddleware(['web'])->group(function () {
     Route::post('login', [AuthController::class, 'generateToken']);
@@ -15,7 +18,7 @@ Route::withoutMiddleware(['web'])->group(function () {
     // Public Routes
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/{id}', [ProductController::class, 'show']);
-    
+    Route::post('/checkout', [CheckoutController::class, 'process']);
 
 
     // Protected Routes (Requires Authentication)
@@ -31,7 +34,7 @@ Route::withoutMiddleware(['web'])->group(function () {
 
         // Checkout Routes
         Route::get('/checkout/{id}', [CheckoutController::class, 'show']);
-        Route::post('/checkout', [CheckoutController::class, 'process']);
+        
 
 
         Route::get('/orders', [OrderController::class, 'index']);
