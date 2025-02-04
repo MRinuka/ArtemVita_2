@@ -33,20 +33,42 @@ class CheckoutController extends Controller
 
         $user = Auth::user();
 
-        // Create a new order
-        $order = new Order();
-        $order->user_id = Auth::id(); // Assign logged-in user ID
-        $order->product_id = $validatedData['product_id'];
-        $order->address = $validatedData['address'];
-        $order->status = 'Pending'; // Default status
-        $order->save();
+        // Start database transaction to ensure data consistency
+        DB::beginTransaction();
 
-        $order->load('product');
+        try {
+            // Create a new order
+            $order = new Order();
+            $order->user_id = Auth::id();
+            $order->product_id = $validatedData['product_id'];
+            $order->address = $validatedData['address'];
+            $order->status = 'Pending'; // Default status
+            $order->save();
 
-        // Return JSON success response
-        return response()->json([
-            'message' => 'Order placed successfully!',
-            'order' => $order
-        ], 201);
+            // Load product relationship
+            $order->load('product');
+
+            // Delete the product from the products table
+            Product::find($validatedData['product_id'])->delete();
+
+            // Commit transaction
+            DB::commit();
+
+            // Return JSON success response
+            return response()->json([
+                'message' => 'Order placed successfully!',
+                'order' => $order
+            ], 201);
+
+        } catch (\Exception $e) {
+            // Rollback transaction if any error occurs
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Failed to process order',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
 }
