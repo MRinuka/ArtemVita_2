@@ -68,7 +68,7 @@ public function process(Request $request)
         DB::commit();
 
         return response()->json([
-            'message' => 'Order placed successfully! Product removed from inventory.',
+            'message' => 'Order placed successfully!',
             'order' => $order
         ], 201);
 
