@@ -18,7 +18,7 @@ Route::withoutMiddleware(['web'])->group(function () {
     // Public Routes
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/{id}', [ProductController::class, 'show']);
-    Route::post('/checkout', [CheckoutController::class, 'process']);
+    
 
 
     // Protected Routes (Requires Authentication)
@@ -33,6 +33,7 @@ Route::withoutMiddleware(['web'])->group(function () {
         Route::delete('/cart/remove', [CartController::class, 'remove']);
 
         // Checkout Routes
+        Route::post('/checkout', [CheckoutController::class, 'process']);
         Route::get('/checkout/{id}', [CheckoutController::class, 'show']);
         
 

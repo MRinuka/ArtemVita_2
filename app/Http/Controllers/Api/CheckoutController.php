@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 
@@ -25,52 +26,64 @@ class CheckoutController extends Controller
     }
 
     // Process the checkout
-    public function process(Request $request)
-    {
-        // Validate the incoming request
-        $validatedData = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'address' => 'required|string|max:255',
-        ]);
+    
 
-        $user = Auth::user();
 
-        // Start database transaction to ensure data consistency
-        DB::beginTransaction();
+public function process(Request $request)
+{
+    // Validate the incoming request
+    $validatedData = $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'address' => 'required|string|max:255',
+    ]);
 
-        try {
-            // Create a new order
-            $order = new Order();
-            $order->user_id = Auth::id();
-            $order->product_id = $validatedData['product_id'];
-            $order->address = $validatedData['address'];
-            $order->status = 'Pending'; // Default status
-            $order->save();
+    // Get the authenticated user
+    $user = Auth::user();  // Here you retrieve the logged-in user
 
-            // Load product relationship
-            $order->load('product');
+    // Start the transaction
+    DB::beginTransaction();
 
-            // Delete the product from the products table
-            Product::find($validatedData['product_id'])->delete();
+    try {
+        // Create a new order
+        $order = new Order();
+        $order->user_id = $user->id;  // Use the authenticated user
+        $order->product_id = $validatedData['product_id'];
+        $order->address = $validatedData['address'];
+        $order->status = 'Pending'; // Default status
+        $order->save();
 
-            // Commit transaction
-            DB::commit();
+        // Load product relationship (optional)
+        $order->load('product');
 
-            // Return JSON success response
-            return response()->json([
-                'message' => 'Order placed successfully!',
-                'order' => $order
-            ], 201);
+        // Attempt to delete the product
+        $product = Product::find($validatedData['product_id']);
 
-        } catch (\Exception $e) {
-            // Rollback transaction if any error occurs
-            DB::rollBack();
-
-            return response()->json([
-                'message' => 'Failed to process order',
-                'error' => $e->getMessage()
-            ], 500);
+        if (!$product) {
+            throw new \Exception("Product not found: ID " . $validatedData['product_id']);
         }
+
+        $product->delete();
+
+        // Commit transaction
+        DB::commit();
+
+        return response()->json([
+            'message' => 'Order placed successfully! Product removed from inventory.',
+            'order' => $order
+        ], 201);
+
+    } catch (\Exception $e) {
+        // Rollback transaction if any error occurs
+        DB::rollBack();
+
+        // Log the error for debugging
+        Log::error("Order Process Error: " . $e->getMessage());
+
+        return response()->json([
+            'message' => 'Failed to process order',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
 
 }
