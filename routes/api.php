@@ -6,10 +6,12 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthController;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Cart;
+use App\Models\User;
 
 Route::withoutMiddleware(['web'])->group(function () {
     Route::post('login', [AuthController::class, 'generateToken']);
@@ -23,6 +25,7 @@ Route::withoutMiddleware(['web'])->group(function () {
 
     // Protected Routes (Requires Authentication)
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user/profile', [UserController::class, 'profile']);
         Route::get('/user/products', [ProductController::class, 'userHub']);
         Route::post('/products', [ProductController::class, 'store']);
         Route::put('/products/{id}', [ProductController::class, 'update']);
