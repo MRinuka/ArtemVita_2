@@ -14,6 +14,7 @@ use App\Models\Cart;
 use App\Models\User;
 
 Route::withoutMiddleware(['web'])->group(function () {
+    Route::post('signup', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'generateToken']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
