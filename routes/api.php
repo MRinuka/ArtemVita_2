@@ -26,7 +26,9 @@ Route::withoutMiddleware(['web'])->group(function () {
     // Protected Routes (Requires Authentication)
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user/profile', [UserController::class, 'profile']);
+        Route::put('/user/profile/update', [UserController::class, 'updateProfile']);
         Route::get('/user/products', [ProductController::class, 'userHub']);
+
         Route::post('/products', [ProductController::class, 'store']);
         Route::put('/products/{id}', [ProductController::class, 'update']);
         Route::delete('/products/{id}', [ProductController::class, 'destroy']);
@@ -35,12 +37,9 @@ Route::withoutMiddleware(['web'])->group(function () {
         Route::get('/cart', [CartController::class, 'view']);
         Route::delete('/cart/remove', [CartController::class, 'remove']);
 
-        // Checkout Routes
         Route::post('/checkout', [CheckoutController::class, 'process']);
         Route::get('/checkout/{id}', [CheckoutController::class, 'show']);
         
-
-
         Route::get('/orders', [OrderController::class, 'index']);
     });
 });

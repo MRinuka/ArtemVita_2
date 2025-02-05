@@ -42,7 +42,7 @@ class User extends Authenticatable
     public function getProfilePictureUrlAttribute()
     {
         if ($this->profile_picture) {
-            return Storage::url($this->profile_picture); // Public storage access
+            return asset(Storage::url($this->profile_picture)); // Returns full URL
         }
         return asset('images/default-profile.png'); // Default placeholder image
     }
