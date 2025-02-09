@@ -18,7 +18,7 @@
                 @foreach($orders as $order)
                     <div class="bg-white shadow-md rounded-lg p-6">
                         <div class="flex justify-between items-center border-b pb-4 mb-4">
-                            <h2 class="text-2xl font-semibold">{{ $order->product->product_name }}</h2>
+                            <h2 class="text-2xl font-semibold">{{ $order->product_name }}</h2>
                             <span class="text-sm text-gray-600">{{ $order->created_at->format('M d, Y') }}</span>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -23,22 +23,31 @@ class CheckoutController extends Controller
     {
         $request->validate([
             'address' => 'required|string|max:255',
-            'product_ids' => 'required|array',  // Expecting an array of product IDs
+            'product_ids' => 'required|array',
         ]);
-    
-        // Loop through each product and create an order
+
         foreach ($request->product_ids as $productId) {
-            $order = new Order();
-            $order->user_id = Auth::id();
-            $order->product_id = $productId;
-            $order->address = $request->address;
-            $order->status = 'Pending'; // Default status
-            $order->save();
+            $product = Product::find($productId);
+            
+            if ($product) {
+                // Create order before deleting the product
+                Order::create([
+                    'user_id' => Auth::id(),
+                    'product_id' => $product->id,
+                    'product_name' => $product->product_name, // Store product name before deletion
+                    'price' => $product->price, // Store price before deletion
+                    'address' => $request->address,
+                    'status' => 'Pending',
+                ]);
+
+                // Delete product from database
+                $product->delete();
+            }
         }
-    
-        // Redirect to order history
+
         return redirect()->route('orders.history')->with('success', 'Order placed successfully!');
     }
+
     
     public function cartCheckout()
     {

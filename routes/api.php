@@ -16,7 +16,7 @@ use App\Models\User;
 Route::withoutMiddleware(['web'])->group(function () {
     Route::post('signup', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'generateToken']);
-    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    
 
     // Public Routes
     Route::get('/products', [ProductController::class, 'index']);
@@ -27,13 +27,8 @@ Route::withoutMiddleware(['web'])->group(function () {
     // Protected Routes (Requires Authentication)
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user/profile', [UserController::class, 'profile']);
-        Route::put('/user/profile/update', [UserController::class, 'updateProfile']);
-        Route::get('/user/products', [ProductController::class, 'userHub']);
-
-        Route::post('/products', [ProductController::class, 'store']);
-        Route::put('/products/{id}', [ProductController::class, 'update']);
-        Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-
+        Route::post('logout', [AuthController::class, 'logout']);
+        
         Route::post('/cart/add', [CartController::class, 'add']);
         Route::get('/cart', [CartController::class, 'view']);
         Route::delete('/cart/remove', [CartController::class, 'remove']);
