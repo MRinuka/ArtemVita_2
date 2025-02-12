@@ -10,9 +10,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    /**
-     * Get the details of the authenticated user.
-     */
+    
     public function profile(Request $request)
     {
         $user = Auth::user();

@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function index()
     {
         // Fetch up to 3 product requests
-        $productRequests = ProductRequests::where('status', 'pending')->get();  // Or use another method to get them
+        $productRequests = ProductRequests::where('status', 'pending')->get();  
 
         return view('admin.home', compact('productRequests'));
     }
@@ -38,7 +38,7 @@ class AdminController extends Controller
         // Find the product request
         $productRequest = ProductRequests::findOrFail($id);
 
-        // Create a product from the accepted request
+        
         $product = new Product();
         $product->product_name = $productRequest->product_name;
         $product->price = $productRequest->price;
@@ -47,7 +47,7 @@ class AdminController extends Controller
         $product->seller_id = $productRequest->seller_id;
         $product->save();
 
-        // Update the product request status to 'accepted'
+        
         $productRequest->status = 'accepted';
         $productRequest->save();
 
@@ -56,7 +56,7 @@ class AdminController extends Controller
 
     public function declineProductRequest($id)
     {
-        // Find the product request and update its status to 'declined'
+        
         $productRequest = ProductRequests::findOrFail($id);
         $productRequest->status = 'declined';
         $productRequest->save();
@@ -66,7 +66,7 @@ class AdminController extends Controller
 
     public function products()
     {
-        // Fetch all products
+        
         $products = Product::all();
 
         // Return the view with the products data

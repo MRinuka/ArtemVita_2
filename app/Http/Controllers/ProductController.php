@@ -14,21 +14,21 @@ class ProductController extends Controller
 {
     public function home()
     {
-        // Fetch three products
+        
         $popularArtists = User::whereHas('products')->take(3)->get();
     
-        // Fetch products as usual
-        $products = Product::latest()->take(6)->get(); // Example: Fetch latest 6 products
+        
+        $products = Product::latest()->take(6)->get(); 
     
         return view('Home', compact('products', 'popularArtists'));
     }
 
     public function index()
     {
-        // Fetch all products from the database
+        
         $products = Product::all();
 
-        // Pass the products to the view
+        
         
         return view('products_page', compact('products'));
     }
@@ -36,27 +36,27 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the form data
+        
         $validatedData = $request->validate([
             'painting_name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        // Store the image
+        
         $imagePath = $request->file('image')->store('paintings', 'public');
 
-        // Create the product request record
+        
         $productRequests = new ProductRequests();
         $productRequests->product_name = $validatedData['painting_name'];
         $productRequests->price = $validatedData['price'];
         $productRequests->description = $validatedData['description'];
-        $productRequests->painting_url = 'paintings/' . basename($imagePath); // Save just the relative path
-        $productRequests->seller_id = Auth::id(); // Assign the logged-in user's ID as seller_id
+        $productRequests->painting_url = 'paintings/' . basename($imagePath); 
+        $productRequests->seller_id = Auth::id(); 
         $productRequests->save();
 
-        // Redirect back with a success message
+        
         return redirect()->back()->with('success', 'Product request submitted for approval!');
     }
 
@@ -64,15 +64,15 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        // Ensure only the product owner can delete it
+        
         if ($product->seller_id !== auth()->id()) {
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
 
-        // Delete the product image from storage
+        
         Storage::disk('public')->delete($product->painting_url);
 
-        // Delete the product from the database
+        
         $product->delete();
 
         return redirect('/hub')->with('success', 'Product deleted successfully.');
@@ -81,10 +81,10 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        // Fetch the product by its ID
+        
         $product = Product::findOrFail($id);
 
-        // Pass the product to the detailed view
+        
         return view('product_details', compact('product'));
     }
 
@@ -104,12 +104,12 @@ class ProductController extends Controller
     {
         $userId = auth()->id();
 
-        // Fetch products uploaded by the artist
+        
         $products = Product::where('seller_id', $userId)->get();
 
-        // Fetch products that have been sold (linked via orders)
+        // Fetch products that have been sold 
         $soldProducts = Product::where('seller_id', $userId)
-                            ->whereHas('orders') // Checks if the product has associated orders
+                            ->whereHas('orders') 
                             ->get();
 
         return view('artist.user_hub', compact('products', 'soldProducts'));
@@ -149,12 +149,12 @@ class ProductController extends Controller
         $product->price = $validatedData['price'];
         $product->description = $validatedData['description'];
 
-        // Handle file upload if a new image is provided
+        
         if ($request->hasFile('painting_url')) {
-            // Delete the old image
+            
             Storage::disk('public')->delete($product->painting_url);
 
-            // Save the new image
+            
             $path = $request->file('painting_url')->store('products', 'public');
             $product->painting_url = $path;
         }

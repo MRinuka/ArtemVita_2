@@ -24,7 +24,7 @@ class User extends Authenticatable
         ];
     }
 
-    // Relationship with Cart
+    
     public function cart()
     {
         return $this->hasMany(Cart::class);
@@ -36,14 +36,6 @@ class User extends Authenticatable
     }
 
 
-    /**
-     * Get the full URL for the user's profile picture.
-     */
-    public function getProfilePictureUrlAttribute()
-    {
-        if ($this->profile_picture) {
-            return asset(Storage::url($this->profile_picture)); // Returns full URL
-        }
-        return asset('images/default-profile.png'); // Default placeholder image
-    }
+    
+
 }

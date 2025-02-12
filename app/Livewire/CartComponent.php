@@ -10,14 +10,14 @@ class CartComponent extends Component
     public $cartItems = [];
     public $totalPrice = 0;
 
-    // Load data inside the mount method, as in Code Set 1
+    
     public function mount()
     {
         if (auth()->check()) {
-            // Fetch cart items for the authenticated user
+            
             $cartItems = Cart::where('user_id', auth()->id())->with('product')->get();
 
-            // Process the cart items
+            
             $this->cartItems = $cartItems->map(function ($cartItem) {
                 return [
                     'id' => $cartItem->id,
@@ -30,20 +30,20 @@ class CartComponent extends Component
                 ];
             })->toArray();
 
-            // Calculate total price
+            
             $this->totalPrice = array_sum(array_column($this->cartItems, 'price'));
         }
     }
 
     public function removeFromCart($productId)
     {
-        if (!auth()->check()) return;
+        if (!Auth::check()) return;
 
         Cart::where('user_id', Auth::id())
             ->where('product_id', $productId)
             ->delete();
 
-        $this->mount(); // Refresh the cart after deletion
+        $this->mount(); 
         session()->flash('success', 'Product removed from cart.');
     }
 

@@ -6,7 +6,7 @@
 
 <form action="{{ route('checkout.process') }}" method="POST">
     @csrf
-    <!-- Loop over cart items -->
+    
     @foreach($cartItems as $item)
         <input type="hidden" name="product_ids[]" value="{{ $item->product_id }}">
     @endforeach

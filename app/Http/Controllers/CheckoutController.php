@@ -30,17 +30,17 @@ class CheckoutController extends Controller
             $product = Product::find($productId);
             
             if ($product) {
-                // Create order before deleting the product
+                
                 Order::create([
                     'user_id' => Auth::id(),
                     'product_id' => $product->id,
-                    'product_name' => $product->product_name, // Store product name before deletion
-                    'price' => $product->price, // Store price before deletion
+                    'product_name' => $product->product_name, 
+                    'price' => $product->price, 
                     'address' => $request->address,
                     'status' => 'Pending',
                 ]);
 
-                // Delete product from database
+                
                 $product->delete();
             }
         }
@@ -51,15 +51,15 @@ class CheckoutController extends Controller
     
     public function cartCheckout()
     {
-        // Get the cart items for the authenticated user
+        
         $cartItems = Cart::where('user_id', Auth::id())->get();
 
-        // If there are no cart items, redirect back
+        
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.show')->with('error', 'Your cart is empty.');
         }
 
-        // Calculate the total price and pass it to the view
+        
         $totalPrice = $cartItems->sum('price');
 
         return view('orders.cart_checkout', compact('cartItems', 'totalPrice'));
@@ -68,10 +68,9 @@ class CheckoutController extends Controller
 
     public function history()
     {
-        // Get all orders for the authenticated user
+        
         $orders = Order::where('user_id', Auth::id())->get();
 
-        // Pass the orders to the view
         return view('orders.history', compact('orders'));
     }
 

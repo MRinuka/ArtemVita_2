@@ -11,8 +11,8 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'product_name', // Store product name before product deletion
-        'price',        // Store price before product deletion
+        'product_name', 
+        'price',        
         'address',
         'status',
     ];
